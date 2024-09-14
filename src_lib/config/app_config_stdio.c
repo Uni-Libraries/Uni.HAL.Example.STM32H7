@@ -1,0 +1,26 @@
+//
+// Includes
+//
+
+// ox app
+#include "config/app_config_adc.h"
+#include "config/app_config_net.h"
+#include "config/app_config_rstcnt.h"
+#include "config/app_config_segger.h"
+#include "config/app_config_stdio.h"
+#include "config/app_config_uart.h"
+
+//
+// Globals
+//
+
+
+ox_stdio_context_t g_ox_stdio_ctx = {
+        .config = {
+                .io = &g_ox_uart_io_ctx,
+                .adc = &g_ox_adc_ctx,
+                .net = &g_ox_net_ctx,
+                .rstcnt = &g_ox_rstcnt_ctx,
+                .enable_timer = true,
+        }
+};

@@ -1,0 +1,9 @@
+[submodule "src_unihal"]
+	path = src_unihal
+	url = https://github.com/Uni-Libraries/Uni.HAL.git
+[submodule "src_uninet"]
+	path = src_uninet
+	url = https://github.com/Uni-Libraries/Uni.Net.git
+[submodule "src_unicommon"]
+	path = src_unicommon
+	url = https://github.com/Uni-Libraries/Uni.Common.git

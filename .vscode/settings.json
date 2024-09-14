@@ -1,0 +1,21 @@
+{
+    "clangd.enable": true,
+    "cmake.configureArgs": [
+        "-DOX_TARGET=NUCLEO"
+    ],
+    "files.associations": {
+        "freertos_ip.h": "c",
+        "compare": "c",
+        "cstdint": "c",
+        "ox_hmac.h": "c",
+        "chrono": "c",
+        "ranges": "c",
+        "variant": "c",
+        "uni_hal_core.h": "c",
+        "uni_hal_rcc.h": "c",
+        "uni_hal_gpio.h": "c",
+        "ox_server_ftpinfo.h": "c",
+        "ox_asset_bootstrap_js.h": "c",
+        "stdbool.h": "c"
+    }
+}

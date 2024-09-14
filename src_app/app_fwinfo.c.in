@@ -1,0 +1,29 @@
+//
+// Includes
+//
+
+// ox
+#include "fwinfo/ox_fwinfo.h"
+
+//
+// Globals
+//
+
+__attribute__((section(".FLASH_FWINFO_SECTION")))
+const ox_fwinfo_t g_ox_fwinfo = {
+    .target_device   = "@OX_TARGET@",
+    .build_type      = "@CMAKE_BUILD_TYPE@",
+    .build_timestamp = "@BUILD_TIMESTAMP@",
+    .compiler_info   = "@CMAKE_C_COMPILER_ID@ @CMAKE_C_COMPILER_VERSION@",
+    .git_version     = "@GIT_VERSION@",
+    .git_commit_sha  = "@GIT_COMMIT_SHA@",
+    .git_branch      = "@GIT_BRANCH@",
+};
+
+//
+// Functions
+//
+
+const ox_fwinfo_t* ox_fwinfo_get() {
+    return &g_ox_fwinfo;
+}

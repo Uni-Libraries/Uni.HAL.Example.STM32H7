@@ -1,0 +1,63 @@
+                                                           
+void OnProjectLoad (void) {
+  Edit.SysVar (VAR_RTT_ENABLED, 1);
+  Edit.Preference (PREF_TIMESTAMP_FORMAT, TIMESTAMP_FORMAT_INST_CNT);
+  Edit.SysVar (VAR_HSS_SPEED, BP_STATE_OFF);
+  Project.SetDevice ("STM32H743ZI");
+  Project.SetHostIF ("USB", "");
+  Project.SetTargetIF ("SWD");
+  Project.SetTIFSpeed ("15 MHz");
+
+  Project.SetTraceSource ("Trace Buffer");
+  Edit.SysVar (VAR_TRACE_TIMESTAMPS_ENABLED, 0);
+  Edit.SysVar (VAR_TRACE_CORE_CLOCK, 400000000);
+
+  Project.AddSvdFile ("STM32H743.svd");
+  Project.SetOSPlugin("FreeRTOSPlugin_CM7");
+
+  File.Open ("../build-clion-nucleo/src_app/uni_hal_example_stm32h7_app.elf");
+}
+                                                             
+
+
+void BeforeTargetConnect (void) {                                   
+  Project.SetJLinkScript("./ST_STM32H743_TraceBufferconfig.pex");
+}                                                                   
+
+
+void AfterTargetDownload (void) {
+  unsigned int SP;                                                
+  unsigned int PC;                                                
+  unsigned int VectorTableAddr;                                   
+                                                                  
+  VectorTableAddr = Elf.GetBaseAddr();                            
+                                                                  
+  if (VectorTableAddr == 0xFFFFFFFF) {                            
+    Util.Log("Project file error: failed to get program base"); 
+  } else {                                                        
+    SP = Target.ReadU32(VectorTableAddr);                         
+    Target.SetReg("SP", SP);                                    
+                                                                  
+    PC = Target.ReadU32(VectorTableAddr + 4);                     
+    Target.SetReg("PC", PC);                                    
+  }
+}
+
+                                                                                                                      
+void AfterTargetReset (void) {
+  unsigned int SP;                                                
+  unsigned int PC;                                                
+  unsigned int VectorTableAddr;                                   
+                                                                  
+  VectorTableAddr = Elf.GetBaseAddr();                            
+                                                                  
+  if (VectorTableAddr == 0xFFFFFFFF) {                            
+    Util.Log("Project file error: failed to get program base"); 
+  } else {                                                        
+    SP = Target.ReadU32(VectorTableAddr);                         
+    Target.SetReg("SP", SP);                                    
+                                                                  
+    PC = Target.ReadU32(VectorTableAddr + 4);                     
+    Target.SetReg("PC", PC);                                    
+  }
+}
