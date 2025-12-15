@@ -41,22 +41,18 @@ set(UNI_HAL_RTOS_HEAP_SIZE 300*1024)
 
 
 #
-# Uni.HAL
-#
-add_subdirectory(src_unicommon)
-add_subdirectory(src_unihal)
-include(src_unihal/uni.hal.cmake)
-add_subdirectory(src_uninet)
-
-
-#
 # Dependencies
 #
 
 find_package(Python COMPONENTS Interpreter REQUIRED)
 
-include(cmake/cpm.cmake)
-include(cmake/cpm-mbedtls.cmake)
+include(cmake/corejson.cmake)
+
+add_subdirectory(src_unicommon)
+add_subdirectory(src_unihal)
+include(src_unihal/uni.hal.cmake)
+add_subdirectory(src_uninet)
+add_subdirectory(src_unicrypto)
 
 
 

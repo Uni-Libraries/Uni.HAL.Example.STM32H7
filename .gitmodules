@@ -7,3 +7,9 @@
 [submodule "src_unicommon"]
 	path = src_unicommon
 	url = https://github.com/Uni-Libraries/Uni.Common.git
+[submodule "src_corejson"]
+	path = src_corejson
+	url = https://github.com/FreeRTOS/coreJSON.git
+[submodule "src_unicrypto"]
+	path = src_unicrypto
+	url = https://github.com/uni-Libraries/uni.crypto.git

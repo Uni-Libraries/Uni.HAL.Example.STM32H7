@@ -1,9 +1,0 @@
-#pragma once
-
-#define MBEDTLS_AES_C
-#define MBEDTLS_CCM_C
-#define MBEDTLS_CIPHER_C
-#define MBEDTLS_MD_C
-#define MBEDTLS_PLATFORM_C
-#define MBEDTLS_SHA224_C
-#define MBEDTLS_SHA256_C
