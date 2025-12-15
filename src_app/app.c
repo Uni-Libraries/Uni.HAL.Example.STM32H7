@@ -14,13 +14,10 @@
 #include "config/app_config.h"
 #include "config/app_config_crypto.h"
 #include "config/app_config_net.h"
-#include "config/app_config_server.h"
 #include "crypto/ox_hmac.h"
 #include "net/ox_net.h"
 #include "stdio/ox_stdio.h"
-#include "wdg/ox_wdg.h"
 #include "segger/ox_segger_sysview.h"
-#include "server/ox_server_updater.h"
 
 
 //
@@ -59,9 +56,6 @@ int main(void) {
     // DWT
     uni_hal_dwt_init();
 
-    // WDG
-    ox_wdg_init(&g_ox_wdg_ctx);
-
     // SEGGER
 #if !defined(UNI_HAl_TARGET_MCU_PC)
     uni_hal_segger_rtt_stdio_init(&g_ox_segger_stdio_ctx);
@@ -82,12 +76,8 @@ int main(void) {
     app_config_net_init();
     ox_net_init(&g_ox_net_ctx);
 
-    // Server
+    // Server HTTP
     app_config_server_init();
-    uni_net_http_server_init(&g_ox_server_ctx);
-
-    uni_hal_io_stdio_printf("Dashboard init\r\n");
-    ox_server_updater_init(&g_ox_server_updater_ctx, &g_ox_server_ctx);
 
     // Crypto
     ox_hmac_init(&g_ox_hmac_ctx, g_ox_crypto_key, 32U);

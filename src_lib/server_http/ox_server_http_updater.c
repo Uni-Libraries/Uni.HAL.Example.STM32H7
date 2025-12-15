@@ -14,8 +14,7 @@
 #include <uni_hal.h>
 
 // ox
-#include "crypto/ox_hmac.h"
-#include "server/ox_server_updater.h"
+#include "server_http/ox_server_http_updater.h"
 #include "fwinfo/ox_fwinfo.h"
 #include "ox_asset_updater.h"
 
@@ -25,9 +24,15 @@
 // Defines
 //
 
+#if defined(UNI_HAL_TARGET_MCU_PC)
+#define FLASH_BASE 0
+#define FLASH_BANK_SIZE (1024*1024)
+#endif
+
 #define FLASH_WRITE_ALIGN (32)
 #define FLASH_START_ADDR (FLASH_BASE + FLASH_BANK_SIZE)
 #define FLASH_END_ADDR (FLASH_BASE + FLASH_BANK_SIZE)
+
 
 
 //
