@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Software update</title>
+    <title>Обновление ПО</title>
     <link href="bootstrap.min.css" rel="stylesheet">
     <style>
         input[type="file"]::file-selector-button {
@@ -36,15 +36,19 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mt-5">
-            <h1>Software update</h1>
-            <button id="refreshStatusBtn" class="btn btn-sm btn-outline-secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                </svg>
-            </button>
+    <main class="container-fluid px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Обновление ПО</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    <button id="refreshStatusBtn" class="btn btn-sm btn-outline-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="row mt-4 align-items-stretch">
@@ -56,8 +60,8 @@
                     <div class="card-body">
                         <table class="table">
                             <tbody>
-                                <tr><th scope="row">HMAC valid</th><td id="current_hmac_valid"></td></tr>
-                                <tr><th scope="row">Version</th><td id="current_version"></td></tr>
+                                <tr><th scope="row">HMAC Валиден</th><td id="current_hmac_valid"></td></tr>
+                                <tr><th scope="row">Версия</th><td id="current_version"></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -69,31 +73,31 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
                     </svg>
-                    Swap
+                    Поменять
                 </button>
             </div>
 
             <div class="col-md-5 d-flex">
                 <div class="card w-100">
                     <div class="card-header">
-                        Backup software
+                        Резервное ПО
                     </div>
                     <div class="card-body d-flex flex-column">
                         <table class="table">
                             <tbody>
-                                <tr><th scope="row">HMAC valid</th><td id="next_hmac_valid"></td></tr>
-                                <tr><th scope="row">Version</th><td id="next_version"></td></tr>
+                                <tr><th scope="row">HMAC Валиден</th><td id="next_hmac_valid"></td></tr>
+                                <tr><th scope="row">Версия</th><td id="next_version"></td></tr>
                             </tbody>
                         </table>
                        <div class="d-flex justify-content-end">
                            <input type="file" id="firmwareFile" class="d-none" accept=".bin">
-                           <button id="uploadBtn" class="btn btn-success">Upload</button>
+                           <button id="uploadBtn" class="btn btn-success">Загрузить</button>
                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+                </div>
+    </main>
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -173,26 +177,26 @@
                     .then(response => response.json())
                     .then(data => {
                         firmwareStatus = data;
-                        currentHmacValid.innerText = data.current_firmware.hmac_valid ? 'yes' : 'no';
-                        currentVersion.innerText = data.current_firmware.hmac_valid ? data.current_firmware.version : 'unknown';
+                        currentHmacValid.innerText = data.current_firmware.hmac_valid ? 'да' : 'нет';
+                        currentVersion.innerText = data.current_firmware.hmac_valid ? data.current_firmware.version : 'неизвестно';
 
-                        nextHmacValid.innerText = data.next_firmware.hmac_valid ? 'yes' : 'no';
-                        nextVersion.innerText = data.next_firmware.hmac_valid ? data.next_firmware.version : 'unknown';
+                        nextHmacValid.innerText = data.next_firmware.hmac_valid ? 'да' : 'нет';
+                        nextVersion.innerText = data.next_firmware.hmac_valid ? data.next_firmware.version : 'неизвестно';
                         
                         applyBtn.disabled = !data.next_firmware.hmac_valid;
                         if (applyBtn.disabled) {
-                            applyBtn.setAttribute('title', 'HMAC invalid');
+                            applyBtn.setAttribute('title', 'HMAC невалиден');
                         } else {
                             applyBtn.removeAttribute('title');
                         }
                     })
                     .catch(error => {
                         console.error('Error fetching status:', error);
-                        showToast('Error', 'Failed to get status.', 'danger');
-                        currentHmacValid.innerText = 'Error';
-                        nextHmacValid.innerText = 'Error';
+                        showToast('Ошибка', 'Не удалось получить статус.', 'danger');
+                        currentHmacValid.innerText = 'Ошибка';
+                        nextHmacValid.innerText = 'Ошибка';
                         applyBtn.disabled = true;
-                        applyBtn.setAttribute('title', 'HMAC invalid');
+                        applyBtn.setAttribute('title', 'HMAC невалиден');
                     })
                     .finally(() => {
                         setUIBlocked(false);
@@ -213,7 +217,7 @@
                 }
                 const file = fileInput.files[0];
                 if (file.size !== 1 * 1024 * 1024) {
-                    showToast('Error', 'Invalid firmware size. It must be 1 MiB.', 'danger');
+                    showToast('Ошибка', 'Неверный размер ПО. Должен быть ровно 1 МиБ.', 'danger');
                     return;
                 }
 
@@ -228,12 +232,12 @@
                 .then(response => response.text())
                 .then(text => {
                     if (isNaN(parseInt(text))) { throw new Error(text); }
-                    showToast('Success', 'Firmware uploaded successfuly.', 'success');
+                    showToast('Успех', 'ПО успешно загружено.', 'success');
                     fetchStatus();
                 })
                 .catch(error => {
                     console.error('Error uploading:', error);
-                    showToast('Error', `Upload error: ${error.message}`, 'danger');
+                    showToast('Ошибка', `Ошибка загрузки: ${error.message}`, 'danger');
                     setUIBlocked(false);
                 }).then(() => {
                     // Reset file input to allow re-uploading the same file,
@@ -251,9 +255,11 @@
 
                 fetch('/updater/apply', { method: 'GET' })
                     .catch(error => {
+                         // We expect the request to fail as the device reboots, so we can ignore this error
+                        console.log("Запрос на смену отправлен, устройство перезагружается.");
                     });
 
-                showToast('In progress', 'Waiting for device reboot...', 'info');
+                showToast('В процессе', 'Команда на смену ПО отправлена. Ожидание перезагрузки устройства...', 'info');
 
                 let pollCount = 0;
                 const maxPolls = 30; // 30 polls * 2 seconds = 60 seconds timeout
@@ -270,12 +276,12 @@
                             if (data.current_firmware.version === versionToSwap) {
                                 swapCompleted = true;
                                 clearInterval(pollInterval);
-                                showToast('Success', 'OK', 'success');
+                                showToast('Успех', 'Смена ПО прошла успешно!', 'success');
                                 fetchStatus(); // final refresh
                             } else if (pollCount > maxPolls) {
                                 swapCompleted = true;
                                 clearInterval(pollInterval);
-                                showToast('Error', 'Timeout.', 'danger');
+                                showToast('Ошибка', 'Тайм-аут смены ПО. Устройство не вернулось с новой версией.', 'danger');
                                 fetchStatus(); // final refresh
                             }
                         })
@@ -283,7 +289,7 @@
                            if (pollCount > maxPolls) {
                                 swapCompleted = true;
                                 clearInterval(pollInterval);
-                                showToast('Error', 'Timeout', 'danger');
+                                showToast('Ошибка', 'Тайм-аут смены ПО. Не удалось получить статус устройства.', 'danger');
                                 fetchStatus(); // final refresh
                            }
                         });

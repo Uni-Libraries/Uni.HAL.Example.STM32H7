@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Панель состояния</title>
+    <link href="bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<main class="container-fluid px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Панель состояния</h1>
+    </div>
+
+    <hr/>
+
+    <div class="row mb-3">
+        <div class="col-md-5">
+            <h1 class="h2">Информация о ПО</h1>
+            <div class="table-responsive small">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Целевое устройство</td>
+                        <td id="fwinfo_device">ph</td>
+                    </tr>
+                    <tr>
+                        <td>Версия ПО</td>
+                        <td id="fwinfo_version">ph</td>
+                    </tr>
+
+                    <tr>
+                        <td>Время сборки</td>
+                        <td id="fwinfo_timestamp">ph</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <h1 class="h2">Состояние устройства</h1>
+            <div class="table-responsive small">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Время работы</td>
+                        <td id="tlm_uptime">ph</td>
+                    </tr>
+                    <tr>
+                        <td>Внешнее тактирование</td>
+                        <td id="tlm_hse">ph</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mb-3">
+
+        <div class="col-md-5">
+            <h1 class="h2">АЦП</h1>
+            <div class="table-responsive small">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Температура МК</td>
+                        <td id="adc_temp">ph</td>
+                    </tr>
+                    <tr>
+                        <td>Напряжение МК</td>
+                        <td id="adc_vdda">ph</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+
+        <div class="col-md-5">
+            <h1 class="h2">Сеть</h1>
+            <div class="table-responsive small">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Соединение</td>
+                        <td colspan="3" id="net_link_up">ph</td>
+                    </tr>
+                    <tr>
+                        <td>Перегрузка</td>
+                        <td colspan="3" id="net_oc">ph</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</main>
+
+<script src="bootstrap.bundle.min.js"></script>
+<script>
+    function pollFunc(fn, interval) {
+        (function p() {
+            if (fn()) { // ensures the function exucutes
+                setTimeout(p, interval);
+            }
+        })();
+    }
+
+    function loadJSON(path, success, error) {
+        var xhr = new XMLHttpRequest();
+        xhr.timeout = 900;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    if (success)
+                        success(JSON.parse(xhr.responseText));
+                } else {
+                    if (error)
+                        error(xhr);
+                }
+            }
+        };
+        xhr.open("GET", path, true);
+        xhr.send();
+    }
+
+    function onContent(data) {
+        for (var key in data) {
+            var el = document.getElementById(key);
+            if (el != null) {
+                el.innerText = data[key];
+                if (el.innerText == '4294967.5' || el.innerText == "4294967295") {
+                    el.innerText = "ТАЙМАУТ"
+                }
+            }
+        }
+    }
+
+    function updateData(params) {
+        loadJSON('/status.json', onContent, null)
+        return true;
+    }
+
+    pollFunc(updateData, 1000);
+
+</script>
+</body>
+</html>

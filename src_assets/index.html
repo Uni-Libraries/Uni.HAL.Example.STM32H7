@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="utf-8">
@@ -93,9 +93,15 @@
                 <div class="position-sticky pt-3 sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="loadPage('updater.html', this)">
+                            <a class="nav-link active" href="#" onclick="loadPage('dashboard.html', this); return false;">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Состояние
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="loadPage('updater.html', this); return false;">
                                 <i class="fas fa-sync-alt"></i>
-                                Software update
+                                Обновление ПО
                             </a>
                         </li>
                     </ul>
@@ -103,7 +109,7 @@
             </nav>
 
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 main-content">
-                <iframe id="content-frame" class="content-iframe" src="updater.html"></iframe>
+                <iframe id="content-frame" class="content-iframe" src="dashboard.html"></iframe>
             </main>
         </div>
     </div>
