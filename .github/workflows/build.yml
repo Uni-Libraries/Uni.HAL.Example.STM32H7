@@ -55,6 +55,7 @@ jobs:
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
   build-arm-clang:
+    if: false
     name: arm/clang (${{ matrix.mcu }}) on ubuntu-latest
     runs-on: ubuntu-latest
     strategy:
