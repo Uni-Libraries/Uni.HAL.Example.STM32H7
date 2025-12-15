@@ -1,0 +1,106 @@
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-arm-gcc:
+    name: arm/gcc (${{ matrix.mcu }}) on ubuntu-latest
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mcu: [STM32H743]
+        build_type: [Release]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'true'
+
+    - name: Install elftools
+      shell: bash
+      run: |
+        pip install pyelftools
+  
+    - name: Install GNU Arm Embedded Toolchain
+      shell: bash
+      run: |
+        TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi.tar.xz"
+        TOOLCHAIN_TAR="arm-gnu-toolchain.tar.xz"
+        TOOLCHAIN_DIR="${{ github.workspace }}/arm-gnu-toolchain"
+        
+        wget -O "${TOOLCHAIN_TAR}" "${TOOLCHAIN_URL}"
+        mkdir -p "${TOOLCHAIN_DIR}"
+        tar -xf "${TOOLCHAIN_TAR}" -C "${TOOLCHAIN_DIR}" --strip-components=1
+        
+        echo "${TOOLCHAIN_DIR}/bin" >> $GITHUB_PATH
+
+    - name: Set reusable strings
+      id: strings
+      shell: bash
+      run: |
+        echo "build-output-dir=${{ github.workspace }}/build-${{ matrix.mcu }}" >> "$GITHUB_OUTPUT"
+
+    - name: Configure CMake
+      run: >
+        cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/src_unihal//cmake/toolchain.cmake
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DUNI_HAL_TARGET_MCU=${{ matrix.mcu }}
+        -S ${{ github.workspace }}
+
+    - name: Build
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+
+  build-arm-clang:
+    name: arm/clang (${{ matrix.mcu }}) on ubuntu-latest
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mcu: [STM32H743]
+        build_type: [Release]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'true'
+  
+    - name: Install elftools
+      shell: bash
+      run: |
+        pip install pyelftools
+
+    - name: Install LLVM Embedded Toolchain for Arm
+      shell: bash
+      run: |
+        TOOLCHAIN_URL="https://github.com/ARM-software/LLVM-embedded-toolchain-for-Arm/releases/download/release-19.1.5/LLVM-ET-Arm-19.1.5-Linux-x86_64.tar.xz"
+        TOOLCHAIN_TAR="llvm-toolchain.tar.xz"
+        TOOLCHAIN_DIR="${{ github.workspace }}/llvm-toolchain"
+        
+        wget -O "${TOOLCHAIN_TAR}" "${TOOLCHAIN_URL}"
+        mkdir -p "${TOOLCHAIN_DIR}"
+        tar -xf "${TOOLCHAIN_TAR}" -C "${TOOLCHAIN_DIR}" --strip-components=1
+        
+        echo "${TOOLCHAIN_DIR}/bin" >> $GITHUB_PATH
+
+    - name: Set reusable strings
+      id: strings
+      shell: bash
+      run: |
+        echo "build-output-dir=${{ github.workspace }}/build-clang-${{ matrix.mcu }}" >> "$GITHUB_OUTPUT"
+
+    - name: Configure CMake
+      run: >
+        cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/src_unihal/cmake/toolchain.cmake
+        -DCMAKE_C_COMPILER=clang
+        -DCMAKE_CXX_COMPILER=clang++
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DUNI_HAL_TARGET_MCU=${{ matrix.mcu }}
+        -S ${{ github.workspace }}
+
+    - name: Build
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
