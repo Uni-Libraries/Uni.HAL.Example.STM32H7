@@ -185,7 +185,7 @@ static size_t _ox_server_updater_handler_upload(void* userdata, uint8_t* buf_out
     }
     return result;
 }
-
+/*
 static size_t _ox_server_updater_handler_download(void* userdata, uint8_t* buf_out, size_t buf_out_size, const uint8_t* buf_in, size_t buf_in_len)
 {
     static size_t g_download_offset = 0;
@@ -221,7 +221,7 @@ static size_t _ox_server_updater_handler_download(void* userdata, uint8_t* buf_o
 
     return result;
 }
-
+*/
 static size_t _ox_server_updater_handler_apply(void* userdata, uint8_t* buf_out, size_t buf_out_size, const uint8_t* buf_in, size_t buf_in_len)
 {
     (void)userdata;
@@ -274,10 +274,20 @@ static size_t _ox_server_updater_handler_status(void* userdata, uint8_t* buf_out
 bool ox_server_updater_init(ox_server_updater_context_t* ctx, uni_net_http_server_context_t* server) {
     bool result = 1;
 
+    static uni_net_http_file_t firmware_file = {
+        .path = "/updater/download",
+        .data = NULL,
+        .size = 1 *1024 * 1024
+    };
+
+    if (firmware_file.data == NULL) {
+        firmware_file.data = (const uint8_t*)(FLASH_BASE + FLASH_BANK_SIZE);
+    }
+
+    result &= uni_net_http_server_register_file(server, &firmware_file);
     result &= uni_net_http_server_register_file_ex(server, "/updater.html", g_ox_asset_updater, g_ox_asset_updater_size);
     result &= uni_net_http_server_register_handler_ex(server, UNI_NET_HTTP_COMMAND_GET, "/updater/status", _ox_server_updater_handler_status, ctx);
     result &= uni_net_http_server_register_handler_ex(server, UNI_NET_HTTP_COMMAND_GET, "/updater/apply", _ox_server_updater_handler_apply, ctx);
     result &= uni_net_http_server_register_handler_ex(server, UNI_NET_HTTP_COMMAND_POST, "/updater/upload", _ox_server_updater_handler_upload, ctx);
-    result &= uni_net_http_server_register_handler_ex(server, UNI_NET_HTTP_COMMAND_GET, "/updater/download", _ox_server_updater_handler_download, ctx);
     return result;
 }
