@@ -1,7 +1,7 @@
                                                            
 void OnProjectLoad (void) {
-  Edit.SysVar (VAR_RTT_ENABLED, 1);
   Edit.Preference (PREF_TIMESTAMP_FORMAT, TIMESTAMP_FORMAT_INST_CNT);
+  Edit.SysVar (VAR_RTT_ENABLED, 1);
   Edit.SysVar (VAR_HSS_SPEED, BP_STATE_OFF);
   Project.SetDevice ("STM32H743ZI");
   Project.SetHostIF ("USB", "");
@@ -15,7 +15,7 @@ void OnProjectLoad (void) {
   Project.AddSvdFile ("STM32H743.svd");
   Project.SetOSPlugin("FreeRTOSPlugin_CM7");
 
-  File.Open ("../build-clion-nucleo/src_app/uni_hal_example_stm32h7_app.elf");
+  File.Open ("../cmake-build-debug-arm-143/src_app/uni_hal_example_stm32h7_app.elf");
 }
                                                              
 

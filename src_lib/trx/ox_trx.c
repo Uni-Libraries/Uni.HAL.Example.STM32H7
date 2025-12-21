@@ -40,7 +40,6 @@ _Noreturn void _ox_trx_thread(void *params) {
     ox_trx_datamsg_t *buf;
 
     uni_hal_spi_set_callback(ctx->config.spi, _ox_trx_spi_callback, ctx);
-
     uni_hal_io_stdio_printf("[TRX] Thread started. Waiting for buffers...\r\n");
 
     while (true) {

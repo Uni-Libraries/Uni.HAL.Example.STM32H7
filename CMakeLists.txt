@@ -54,6 +54,8 @@ include(src_unihal/uni.hal.cmake)
 add_subdirectory(src_uninet)
 add_subdirectory(src_unicrypto)
 
+target_link_libraries(mbedcrypto PUBLIC st_stm32h7)
+
 
 
 #

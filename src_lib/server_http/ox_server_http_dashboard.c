@@ -13,12 +13,6 @@
 #include "server_http/ox_server_http_dashboard.h"
 
 // ox.assets
-#include "ox_asset_bootstrap.h"
-#include "ox_asset_bootstrap_js.h"
-
-#include "ox_asset_fontawesome_css.h"
-#include "ox_asset_fontawesome_wf.h"
-
 #include "ox_asset_index.h"
 #include "ox_asset_dashboard.h"
 #include "ox_asset_favicon.h"
