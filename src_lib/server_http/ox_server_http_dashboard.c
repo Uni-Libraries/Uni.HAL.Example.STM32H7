@@ -52,11 +52,6 @@ bool ox_server_dashboard_init(ox_server_dashboard_context_t* ctx, uni_net_http_s
         result &= uni_net_http_server_register_file_ex(server, "/", g_ox_asset_index, g_ox_asset_index_size);
         result &= uni_net_http_server_register_file_ex(server, "/dashboard.html", g_ox_asset_dashboard, g_ox_asset_dashboard_size);
         result &= uni_net_http_server_register_file_ex(server, "/favicon.ico", g_ox_asset_favicon, g_ox_asset_favicon_size);
-        result &= uni_net_http_server_register_file_ex(server, "/bootstrap.min.css", g_ox_asset_bootstrap, g_ox_asset_bootstrap_size);
-        result &= uni_net_http_server_register_file_ex(server, "/bootstrap.bundle.min.js", g_ox_asset_bootstrap_js, g_ox_asset_bootstrap_js_size);
-        result &= uni_net_http_server_register_file_ex(server, "/css/fontawesome.min.css", g_ox_asset_fontawesome_css, g_ox_asset_fontawesome_css_size);
-        result &= uni_net_http_server_register_file_ex(server, "/webfonts/fa-solid-900.woff2", g_ox_asset_fontawesome_wf, g_ox_asset_fontawesome_wf_size);
-
     }
     return result;
 }
